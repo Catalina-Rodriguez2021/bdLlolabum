@@ -4,6 +4,22 @@ USE LOLABUM;
 EXEC sp_rename 'dbo.PEDIDO', 'INTENCION_COMPRA';
 
 
+-- Añadir una nueva columna temporal
+ALTER TABLE VEHICULOS
+ADD TempPrecio INT;
+
+-- Actualizar la nueva columna con los valores convertidos
+UPDATE VEHICULOS
+SET TempPrecio = CONVERT(INT, PRECIO);
+
+-- Eliminar la columna original
+ALTER TABLE VEHICULOS
+DROP COLUMN PRECIO;
+
+-- Renombrar la nueva columna a la nomenclatura original
+EXEC sp_rename 'VEHICULOS.TempPrecio', 'PRECIO', 'COLUMN';
+
+
 
 ALTER TABLE CATEGORIA
 ADD ESTADO BIT;
